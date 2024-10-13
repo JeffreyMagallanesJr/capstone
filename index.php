@@ -74,7 +74,7 @@ include("login_validation.php");
                                 <i class="entypo-user"></i>
                             </div>
 
-                            <input type="text" class="form-control" name="username" id="username" value="<?php echo $username; ?>" placeholder="Username" autocomplete="off" autofocus />
+                            <input type="text" class="form-control" name="username" id="username" value="<?php echo $username; ?>" placeholder="Username" autocomplete="off" autofocus" required >
                             <span class="error"><?php echo $username_error; ?></span><br>
                         </div>
 
@@ -87,7 +87,7 @@ include("login_validation.php");
                                 <i class="entypo-key"></i>
                             </div>
 
-                            <input type="password" class="form-control" value="<?php echo $password; ?>" name="password" id="password" placeholder="Password" autocomplete="off" />
+                            <input type="password" class="form-control" value="<?php echo $password; ?>" name="password" id="password" placeholder="Password" autocomplete="off""required />
                             <span class="error"><?php echo $password_error; ?></span>
                         </div>
 
