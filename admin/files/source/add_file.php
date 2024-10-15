@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="field-1" class="col-sm-3 control-label">Document Name</label>
                                 
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" name="document_name"value="<?php echo htmlspecialchars($document_name); ?>" placeholder="Document Name" required>
+                                    <input type="text" class="form-control" name="document_name"value="<?php echo htmlspecialchars($document_name); ?>" placeholder="Document Name">
                                     <span class="error"><?php echo $err_dn; ?></span>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label class="col-sm-3 control-label">Category</label>
                                 
                                 <div class="col-sm-5">
-                                    <select onchange="updateSubCategories()" class="form-control" name="category_name" id="category_name" required>
+                                    <select onchange="updateSubCategories()" class="form-control" name="category_name" id="category_name">
                                     <option selected>-Please select an option-</option>
                                     <?php
                                         $query = "SELECT category_id, category_name FROM category";

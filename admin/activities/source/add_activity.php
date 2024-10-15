@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="field-1" class="col-sm-3 control-label">Document Name</label>
                                 
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" name="document_name"value="<?php echo htmlspecialchars($document_name); ?>" placeholder="Document Name"" required>
+                                    <input type="text" class="form-control" name="document_name"value="<?php echo htmlspecialchars($document_name); ?>" placeholder="Document Name">
                                     <span class="error"><?php echo $document_nameErr; ?></span>
                                 </div>
                             </div>
@@ -159,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label class="col-sm-3 control-label">Category</label>
                                 
                                 <div class="col-sm-5">
-                                    <select onchange="updateSubCategories()" class="form-control" name="category_name" id="category_name" required>
+                                    <select onchange="updateSubCategories()" class="form-control" name="category_name" id="category_name">
                                     <option selected>-Please select an option-</option>
                                     <?php
                                         $query = "SELECT category_id, category_name FROM category";
@@ -183,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 
                                 <div class="col-sm-5">
                                     
-                                    <select class="form-control" name="sub_category_name" id="sub_category_name" required>
+                                    <select class="form-control" name="sub_category_name" id="sub_category_name">
                                         <option selected>-Please select a sub-category-</option>
                                     </select>
                                     <!-- <input type="text" class="form-control" name="sub_category_name"value="<?php echo htmlspecialchars($sub_category_name); ?>" placeholder="Sub Category"> -->
@@ -216,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="field-1" class="col-sm-3 control-label">Date and Time Reminder</label>
                                 
                                 <div class="col-sm-5">
-                                <input type="datetime-local"class="form-control" name="date_time_reminder" value="<?php echo htmlspecialchars($date_time_reminder); ?>" required>
+                                <input type="datetime-local"class="form-control" name="date_time_reminder" value="<?php echo htmlspecialchars($date_time_reminder); ?>">
                                 </div>
                             </div>
                           
@@ -231,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										<span class="btn btn-info btn-file">
 											<span class="fileinput-new">Select file</span>
 											<span class="fileinput-exists">Change</span>
-											<input type="file" name="file" required>
+											<input type="file" name="file">
 										</span>
 										<span class="error"><?php echo $uploadErr; ?></span>
 										<a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
@@ -241,7 +241,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							</div>
 
                            
-                            
 
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-5">
