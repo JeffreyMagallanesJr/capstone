@@ -6,7 +6,7 @@
         <li class="profile-info dropdown"><!-- add class "pull-right" if you want to place this from right -->
 
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="/DMS/template/assets/users/czar.jpg" alt="" class="img-circle" width="44" />
+                <img src="/capstone/template/assets/users/czar.jpg" alt="" class="img-circle" width="44" />
                 Czar Evan Gasper
             </a>
 
@@ -183,7 +183,7 @@
                         <li class="active">
                             <a href="#">
                                 <span class="image pull-right">
-                                    <img src="/DMS/template/assets/images/thumb-1@2x.png" width="44" alt="" class="img-circle" />
+                                    <img src="/capstone/template/assets/images/thumb-1@2x.png" width="44" alt="" class="img-circle" />
                                 </span>
 
                                 <span class="line">
@@ -200,7 +200,7 @@
                         <li class="active">
                             <a href="#">
                                 <span class="image pull-right">
-                                    <img src="/DMS/template/assets/images/thumb-2@2x.png" width="44" alt="" class="img-circle" />
+                                    <img src="/capstone/template/assets/images/thumb-2@2x.png" width="44" alt="" class="img-circle" />
                                 </span>
 
                                 <span class="line">
@@ -217,7 +217,7 @@
                         <li>
                             <a href="#">
                                 <span class="image pull-right">
-                                    <img src="/DMS/template/assets/images/thumb-3@2x.png" width="44" alt="" class="img-circle" />
+                                    <img src="/capstone/template/assets/images/thumb-3@2x.png" width="44" alt="" class="img-circle" />
                                 </span>
 
                                 <span class="line">
@@ -234,7 +234,7 @@
                         <li>
                             <a href="#">
                                 <span class="image pull-right">
-                                    <img src="/DMS/template/assets/images/thumb-4@2x.png" width="44" alt="" class="img-circle" />
+                                    <img src="/capstone/template/assets/images/thumb-4@2x.png" width="44" alt="" class="img-circle" />
                                 </span>
 
                                 <span class="line">
@@ -375,7 +375,7 @@
 
     <ul class="list-inline links-list pull-right">
         <li>
-            <a href="../index.php">
+            <a href="/capstone/index.php">
                 Log Out <i class="entypo-logout right"></i>
             </a>
         </li>

@@ -27,15 +27,15 @@ if (!$result) {
     <meta name="description" content="Neon Admin Panel" />
     <meta name="author" content="" />
 
-    <link rel="icon" href="/DMS/template/assets/images/favicon.ico">
+    <link rel="icon" href="/capstone/template/assets/images/favicon.ico">
 
     <title>Digitalized Document Management System | Files</title>
 
     <?php include('../../components/common-styles.php') ?>
 
-    <link rel="stylesheet" href="/DMS/template/assets/js/datatables/datatables.css">
-    <link rel="stylesheet" href="/DMS/template/assets/js/select2/select2-bootstrap.css">
-    <link rel="stylesheet" href="/DMS/template/assets/js/select2/select2.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/datatables/datatables.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/select2/select2-bootstrap.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/select2/select2.css">
 
     <style>
         .table-cont {
@@ -54,8 +54,9 @@ if (!$result) {
         <div class="main-content">
 
             <div class="row">
-                <?php include('../../components/navbar.php') ?>
+                <?php include('../../components/navbar.php') ?> 
             </div>
+            
 
             <hr />
 
@@ -113,7 +114,7 @@ if (!$result) {
                                 echo "<td>" . $row['date_received'] . "</td>";
                                 // Add your action buttons or any other data as needed
                                 echo "<td>";
-                                echo "<button class='btn btn-sm btn-info text-uppercase'>Update</button>";
+                                echo "<a href=' ./source/Edit_file.php' class='btn btn-sm btn-info text-uppercase'>Update</a>";
                                 echo "<button class='btn btn-sm btn-danger text-uppercase'>Archive</button>";
                                 echo "<a href='./source/details.php' class='btn btn-sm btn-primary text-uppercase'>View</a>";
                                 echo "</td>";
@@ -140,25 +141,26 @@ if (!$result) {
         </div>
 
     </div>
+    
 
     <!-- Imported styles on this page -->
-    <link rel="stylesheet" href="/DMS/template/assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
-    <link rel="stylesheet" href="/DMS/template/assets/js/rickshaw/rickshaw.min.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/rickshaw/rickshaw.min.css">
 
     <!-- Bottom scripts (common) -->
     <?php include('../../components/common-scripts.php') ?>
 
 
     <!-- Imported scripts on this page -->
-    <script src="/DMS/template/assets/js/datatables/datatables.js"></script>
-    <script src="/DMS/template/assets/js/select2/select2.min.js"></script>
+    <script src="/capstone/template/assets/js/datatables/datatables.js"></script>
+    <script src="/capstone/template/assets/js/select2/select2.min.js"></script>
 
     <!-- JavaScripts initializations and stuff -->
-    <script src="/DMS/template/assets/js/neon-custom.js"></script>
+    <script src="/capstone/template/assets/js/neon-custom.js"></script>
 
 
     <!-- Demo Settings -->
-    <script src="/DMS/template/assets/js/neon-demo.js"></script>
+    <script src="/capstone/template/assets/js/neon-demo.js"></script>
 
 </body>
 

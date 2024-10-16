@@ -9,7 +9,7 @@
     <meta name="description" content="Neon Admin Panel" />
     <meta name="author" content="" />
 
-    <link rel="icon" href="/DMS/template/assets/images/favicon.ico">
+    <link rel="icon" href="/capstone/template/assets/images/favicon.ico">
 
     <title>Digitalized Document Management System | Dashboard</title>
 
@@ -41,8 +41,8 @@
     </div>
 
     <!-- Imported styles on this page -->
-    <link rel="stylesheet" href="/DMS/template/assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
-    <link rel="stylesheet" href="/DMS/template/assets/js/rickshaw/rickshaw.min.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/rickshaw/rickshaw.min.css">
 
     <!-- Bottom scripts (common) -->
     <?php include('../../components/common-scripts.php') ?>
@@ -51,11 +51,11 @@
     <!-- Imported scripts on this page -->
 
     <!-- JavaScripts initializations and stuff -->
-    <script src="/DMS/template/assets/js/neon-custom.js"></script>
+    <script src="/capstone/template/assets/js/neon-custom.js"></script>
 
 
     <!-- Demo Settings -->
-    <script src="/DMS/template/assets/js/neon-demo.js"></script>
+    <script src="/capstone/template/assets/js/neon-demo.js"></script>
 
 </body>
 

@@ -7,7 +7,7 @@
             <!-- logo -->
             <div class="logo">
                 <a href="#">
-                    <img src="/DMS/template/assets/logo/mandalagan-logo.png" width="120" alt="" />
+                    <img src="/capstone/template/assets/logo/mandalagan-logo.png" width="120" alt="" />
                 </a>
                 <h3 class="" style="color: #fff !important; margin-bottom: 0px !important">DMS</h3>
             </div>
@@ -36,7 +36,7 @@
             <!-- add class "multiple-expanded" to allow multiple submenus to open -->
             <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
             <li class="active active">
-                <a href="/DMS/admin/dashboard.php">
+                <a href="/capstone/admin/dashboard.php">
                     <i class="entypo-gauge"></i>
                     <span class="title">Dashboard</span>
                 </a>
@@ -48,25 +48,25 @@
                 </a>
                 <ul>
                     <li class="">
-                        <a href="/DMS/admin/files">
+                        <a href="/capstone/admin/files">
                             <span class="title">Files</span>
                         </a>
                     </li>
                     <li class="">
-                        <a href="/DMS/admin/activities">
+                        <a href="/capstone/admin/activities">
                             <span class="title">Activities</span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="">
-                <a href="/DMS/admin/calendar">
+                <a href="/capstone/admin/calendar">
                     <i class="entypo-calendar"></i>
                     <span class="title">Calendar</span>
                 </a>
             </li>
             <li>
-                <a href="/DMS/admin/archive">
+                <a href="/capstone/admin/archive">
                     <i class="entypo-bag"></i>
                     <span class="title">Archive</span>
                 </a>
