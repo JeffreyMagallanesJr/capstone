@@ -1,7 +1,7 @@
 <?php
 include("../../../connection.php");
 
-$document_name = $category_name = $sub_category_name = $uploadErr = "";
+$document_name = $category_name = $sub_category_name =  "";
 $err_dn = '';
 $err_cn = '';
 $err_scn = '';
@@ -37,11 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category_name = htmlspecialchars($_POST["category_name"] ?? '');
     $sub_category_name = htmlspecialchars($_POST["sub_category_name"] ?? '');
 
-    
-
-
-    if($document_name == '' || $category_name =='' || $sub_category_name == '' || !isset($_FILES['file'])  || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
-        // ERROR
+    // Check for errors
+    if($document_name == '' || $category_name == '' || $sub_category_name == '' || !isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
+        // Error handling
         if(!$document_name) {
             $err_dn = "Document name is required!";
         }
@@ -55,21 +53,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $uploadErr = "Please select a file to upload.";
         }
     } else {
-        //NO ERROR
+        // No error: Process file upload
         $target_dir = "uploads/";
         $target_file = $target_dir . basename($_FILES["file"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
+        // Validate file type
         if(!in_array($imageFileType, ["jpg", "png", "jpeg", "gif"])) {
             $uploadErr = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        }
-        if($_FILES["file"]["size"] > 5000000) {
+        } elseif($_FILES["file"]["size"] > 5000000) {
             $uploadErr = "Sorry, your file is too large.";
-        }
-        if(!move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+        } elseif(!move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
             $uploadErr = "Sorry, there was an error uploading your file.";
         } else {
-            $insert_query = "INSERT INTO documents (document_name, category_id, sub_category_id) VALUES ('$document_name', '$category_name', '$sub_category_name')";
+            // File uploaded successfully, now insert into database
+            $insert_query = "INSERT INTO documents (document_name, category_id, sub_category_id, image) 
+                            VALUES ('$document_name', '$category_name', '$sub_category_name', '$target_file')";
             $insert_result = mysqli_query($connection, $insert_query);
 
             if ($insert_result) {
@@ -78,9 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 echo "Error inserting document: " . mysqli_error($connection);
             }
-
         }
-
     }
 }
 ?>
@@ -91,14 +88,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Neon Admin Panel" />
     <meta name="author" content="" />   
-
     <link rel="icon" href="/capstone/template/assets/images/favicon.ico">
-
     <title>Digitalized Document Management System | Dashboard</title>
 
     <?php include('../../../components/common-styles.php') ?>
@@ -107,17 +101,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body class="page-body  page-fade" data-url="http://neon.dev">
 
-    <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+    <div class="page-container">
 
         <?php include('../../../components/sidebar.php') ?>
 
         <div class="main-content">
 
             <div class="row">
-
-                <!-- Profile Info and Notifications -->
                 <?php include('../../../components/navbar.php') ?>
-
             </div>
              <div class="row">
             <div class="col-md-12">
@@ -127,14 +118,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="panel-heading">
                         <div class="panel-title">
                         <ol class="breadcrumb bc-3">
-                <li>
-                    <a href="../index.php">Files</a>
-                </li>
-                <li class="active">
-
-                    <strong>Add new file</strong>
-                </li>
-            </ol>
+                            <li>
+                                <a href="../index.php">Files</a>
+                            </li>
+                            <li class="active">
+                                <strong>Add new file</strong>
+                            </li>
+                        </ol>
                         </div>
                         
                         <div class="panel-options">
@@ -147,12 +137,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                     <div class="panel-body">
                         
-                  <center>  <h2>Add New File</h2> <form role="form" method="POST" action="" enctype="multipart/form-data" class="form-horizontal form-groups-bordered"><br>
+                        <center><h2>Add New File</h2></center>
+                        <form role="form" method="POST" action="" enctype="multipart/form-data" class="form-horizontal form-groups-bordered"><br>
                             <div class="form-group">
                                 <label for="field-1" class="col-sm-3 control-label">Document Name</label>
                                 
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" name="document_name"value="<?php echo htmlspecialchars($document_name); ?>" placeholder="Document Name">
+                                    <input type="text" class="form-control" name="document_name" value="<?php echo htmlspecialchars($document_name); ?>" placeholder="Document Name">
                                     <span class="error"><?php echo $err_dn; ?></span>
                                 </div>
                             </div>
@@ -184,17 +175,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <label for="field-1" class="col-sm-3 control-label">Sub Category</label>
                                 
                                 <div class="col-sm-5">
-                                    
                                     <select class="form-control" name="sub_category_name" id="sub_category_name">
                                         <option selected>-Please select a sub-category-</option>
                                     </select>
-                                    <!-- <input type="text" class="form-control" name="sub_category_name"value="<?php echo htmlspecialchars($sub_category_name); ?>" placeholder="Sub Category"> -->
                                     <span class="error"><?php echo $err_scn; ?></span>
                                 </div>
                             </div>
                             
                             <script type="text/javascript">
-                                // Function to update sub-categories based on selected category
                                 function updateSubCategories() {
                                     var categoryId = document.getElementById('category_name').value;
                                     var subCategorySelect = document.getElementById('sub_category_name');
@@ -215,39 +203,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </script>
                             
                             <div class="form-group">
-								<label class="col-sm-3 control-label">Select Image</label>
-								
-								<div class="col-sm-2">
-								
-									<div class="fileinput fileinput-new" data-provides="fileinput">
-										<span class="btn btn-info btn-file">
-											<span class="fileinput-new">Select file</span>
-											<span class="fileinput-exists">Change</span>
-											<input type="file" name="file">
-										</span>
-										<span class="error"><?php echo $uploadErr; ?></span>
-										<a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
-									</div>
-									
-								</div>
-							</div>
-
-                           
-                            
+                                <label class="col-sm-3 control-label">Select Image</label>
+                                
+                                <div class="col-sm-2">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <span class="btn btn-info btn-file">
+                                            <span class="fileinput-new">Select file</span>
+                                            <span class="fileinput-exists">Change</span>
+                                            <input type="file" name="file">
+                                        </span>
+                                        <span class="error"><?php echo $uploadErr; ?></span>
+                                        <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-5">
-                                <button type="submit" class="btn btn-success">
-                                    Submit
-                                </button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
                         </form>
-                        
-                    </form>
+                    </div>
                 
                 </div>
-            
             </div>
         </div>
 

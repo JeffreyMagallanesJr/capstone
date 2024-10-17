@@ -152,6 +152,6 @@
 	<!-- Demo Settings -->
 	<script src="/capstone/template/assets/js/neon-demo.js"></script>
 
-</bocapstone
+			</body>
 
 </html>
