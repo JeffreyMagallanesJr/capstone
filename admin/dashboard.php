@@ -1,3 +1,68 @@
+<?php
+include("../connection.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // Activities query
+    $query = "
+        SELECT 
+            d.document_id, 
+            d.document_name, 
+            c.category_name, 
+            s.sub_category_name, 
+            cal.date_time_reminder
+        FROM 
+            documents d
+        JOIN 
+            category c ON d.category_id = c.category_id
+        JOIN 
+            sub_category s ON d.sub_category_id = s.sub_category_id
+        JOIN 
+            calendar cal ON d.document_id = cal.document_id  
+        WHERE 
+            cal.date_time_reminder IS NOT NULL
+    ";
+
+    $activities_result = mysqli_query($connection, $query);
+    $activities = array();
+    while ($row = mysqli_fetch_assoc($activities_result)) {
+        $activities[] = $row;
+    }
+    mysqli_free_result($activities_result);
+
+    // Files query
+    $query = "
+        SELECT 
+            d.document_id, 
+            d.document_name, 
+            c.category_name, 
+            s.sub_category_name, 
+            d.date_received
+        FROM 
+            documents d
+        JOIN 
+            category c ON d.category_id = c.category_id
+        JOIN 
+            sub_category s ON d.sub_category_id = s.sub_category_id
+        LEFT JOIN 
+            calendar cal ON d.document_id = cal.document_id
+        WHERE 
+            cal.date_time_reminder IS NULL
+    ";
+
+    $files_result = mysqli_query($connection, $query);
+    $files = array();
+    while ($row = mysqli_fetch_assoc($files_result)) {
+        $files[] = $row;
+    }
+    mysqli_free_result($files_result);
+}
+
+$total_activities = count($activities);
+$total_files = count($files);
+$total_documents = $total_activities + $total_files;
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -61,45 +126,39 @@
 			</script>
 
 
-			<div class="row">
-				<div class="col-sm-3 col-xs-6">
+<div class="row">
+    <div class="col-sm-3 col-xs-6">
+        <div class="tile-stats tile-red">
+            <div class="icon"><i class="entypo-doc-text"></i></div>
+            <div class="num" data-start="0" data-end="<?php echo $total_documents; ?>" data-postfix="" data-duration="1500" data-delay="0">0</div>
 
-					<div class="tile-stats tile-red">
-						<div class="icon"><i class="entypo-doc-text"></i></div>
-						<div class="num" data-start="0" data-end="83" data-postfix="" data-duration="1500" data-delay="0">0</div>
+            <h3>Documents</h3>
+            <p>Total Documents</p>
+        </div>
+    </div>
 
-						<h3>Documents</h3>
-						<p>Total Documents</p>
-					</div>
+    <div class="col-sm-3 col-xs-6">
+        <div class="tile-stats tile-green">
+            <div class="icon"><i class="entypo-doc-text"></i></div>
+            <div class="num" data-start="0" data-end="<?php echo $total_files; ?>" data-postfix="" data-duration="1500" data-delay="600">0</div>
 
-				</div>
+            <h3>Files</h3>
+            <p>Total Files</p>
+        </div>
+    </div>
 
-				<div class="col-sm-3 col-xs-6">
+    <div class="clear visible-xs"></div>
 
-					<div class="tile-stats tile-green">
-						<div class="icon"><i class="entypo-doc-text"></i></div>
-						<div class="num" data-start="0" data-end="135" data-postfix="" data-duration="1500" data-delay="600">0</div>
+    <div class="col-sm-3 col-xs-6">
+        <div class="tile-stats tile-aqua">
+            <div class="icon"><i class="entypo-calendar"></i></div>
+            <div class="num" data-start="0" data-end="<?php echo $total_activities; ?>" data-postfix="" data-duration="1500" data-delay="1200">0</div>
 
-						<h3>Files</h3>
-						<p>Total Files</p>
-					</div>
-
-				</div>
-
-				<div class="clear visible-xs"></div>
-
-				<div class="col-sm-3 col-xs-6">
-
-					<div class="tile-stats tile-aqua">
-						<div class="icon"><i class="entypo-calendar"></i></div>
-						<div class="num" data-start="0" data-end="23" data-postfix="" data-duration="1500" data-delay="1200">0</div>
-
-						<h3>Activities</h3>
-						<p>Total Activities</p>
-					</div>
-
-				</div>
-			</div>
+            <h3>Activities</h3>
+            <p>Total Activities</p>
+        </div>
+    </div>
+</div>
 
 			<br />
 

@@ -1,3 +1,51 @@
+<?php
+include("../../connection.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // Activities query
+    $query = "
+        SELECT 
+            d.document_id, 
+            d.document_name, 
+            c.category_name, 
+            s.sub_category_name, 
+            cal.date_time_reminder
+        FROM 
+            documents d
+        JOIN 
+            category c ON d.category_id = c.category_id
+        JOIN 
+            sub_category s ON d.sub_category_id = s.sub_category_id
+        JOIN 
+            calendar cal ON d.document_id = cal.document_id  
+        WHERE 
+            cal.date_time_reminder IS NOT NULL
+        ORDER BY 
+            cal.date_time_reminder ASC
+    ";
+
+    $activities_result = mysqli_query($connection, $query);
+    $activities = array();
+    while ($row = mysqli_fetch_assoc($activities_result)) {
+        $activities[] = $row;
+    }
+    mysqli_free_result($activities_result);
+
+    // Create an array to store events for each date
+    $events_by_date = array();
+    foreach ($activities as $activity) {
+        $date = date('Y-m-d', strtotime($activity['date_time_reminder']));
+        if (!isset($events_by_date[$date])) {
+            $events_by_date[$date] = array();
+        }
+        $events_by_date[$date][] = $activity;
+    }
+}
+
+$colors = array('color-blue', 'color-orange', 'color-primary', 'color-green');
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +68,8 @@
     <link rel="stylesheet" href="/capstone/template/assets/css/neon-forms.css">
     <link rel="stylesheet" href="/capstone/template/assets/css/custom.css">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css" />
+    
     <script src="/capstone/template/assets/js/jquery-1.11.3.min.js"></script>
 </head>
 <body class="page-body" data-url="http://neon.dev">
@@ -34,46 +84,7 @@
 
     		<div class="calendar-env">
         <!-- Calendar Body -->
-        <div class="calendar-body">
-            <div id="calendar"></div>
-        </div>
-
-        <!-- Sidebar -->
-        <div class="calendar-sidebar">
-            <!-- new task form -->
-            <div class="calendar-sidebar-row">
-                <form role="form" id="add_event_form">
-                    <div class="input-group minimal">
-                        <input type="text" class="form-control" placeholder="Add event..." />
-                        <div class="input-group-addon">
-                            <i class="entypo-pencil"></i>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Events List -->
-            <ul class="events-list" id="draggable_events">
-                <li>
-                    <p>Drag Events to Calendar Dates</p>
-                </li>
-                <li>
-                    <a href="#">Sport Match</a>
-                </li>
-                <li>
-                    <a href="#" class="color-blue" data-event-class="color-blue">Meeting</a>
-                </li>
-                <li>
-                    <a href="#" class="color-orange" data-event-class="color-orange">Relax</a>
-                </li>
-                <li>
-                    <a href="#" class="color-primary" data-event-class="color-primary">Study</a>
-                </li>
-                <li>
-                    <a href="#" class="color-green" data-event-class="color-green">Family Time</a>
-                </li>
-            </ul>
-        </div>
+        <div id="calendar"></div>
     </div>
     
     <hr />
@@ -93,14 +104,45 @@
 
     <!-- Imported scripts on this page -->
     <script src="/capstone/template/assets/js/moment.min.js"></script>
-    <script src="/capstone/template/assets/js/fullcalendar-2/fullcalendar.min.js"></script>
-    <script src="/capstone/template/assets/js/neon-calendar-2.js"></script>
-    <script src="/capstone/template/assets/js/neon-chat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
 
     <!-- JavaScripts initializations and stuff -->
     <script src="/capstone/template/assets/js/neon-custom.js"></script>
 
-    <!-- Demo Settings -->
-    <script src="/capstone/template/assets/js/neon-demo.js"></script>
+        <!-- Demo Settings -->
+        <script src="/capstone/template/assets/js/neon-demo.js"></script>
+
+<script>
+    $(document).ready(function() {
+        var calendar = $('#calendar');
+        var events = <?= json_encode($events_by_date) ?>;
+
+        // Convert events to FullCalendar format
+        var formattedEvents = [];
+        $.each(events, function(date, events) {
+            $.each(events, function(index, event) {
+                formattedEvents.push({
+                    title: event.document_name,
+                    start: event.date_time_reminder,
+                    backgroundColor: '<?= $colors[array_rand($colors)] ?>'
+                });
+            });
+        });
+
+        // Initialize FullCalendar
+        calendar.fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: new Date(),
+            navLinks: true,
+            editable: true,
+            eventLimit: true,
+            events: formattedEvents
+        });
+    });
+</script>
 </body>
 </html>

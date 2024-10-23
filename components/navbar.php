@@ -7,7 +7,7 @@
 
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <img src="/capstone/template/assets/users/czar.jpg" alt="" class="img-circle" width="44" />
-                Czar Evan Gasper
+                Barangay Secretary
             </a>
 
             <ul class="dropdown-menu">
@@ -17,7 +17,7 @@
 
                 <!-- Profile sub-links -->
                 <li>
-                    <a href="extra-timeline.html">
+                    <a href="/capstone/Profile/index.html">
                         <i class="entypo-user"></i>
                         Edit Profile
                     </a>
@@ -31,7 +31,7 @@
                 </li>
 
                 <li>
-                    <a href="extra-calendar.html">
+                    <a href="/capstone/admin/calendar/index.php">
                         <i class="entypo-calendar"></i>
                         Calendar
                     </a>
@@ -124,19 +124,7 @@
                             </a>
                         </li>
 
-                        <li class="notification-info">
-                            <a href="#">
-                                <i class="entypo-info pull-right"></i>
-
-                                <span class="line">
-                                    The server is status is stable
-                                </span>
-
-                                <span class="line small">
-                                    yesterday at 10:30am
-                                </span>
-                            </a>
-                        </li>
+                        
 
                         <li class="notification-warning">
                             <a href="#">

@@ -1,85 +1,252 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Book</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 50%;
-            margin: 0 auto;
-        }
-        input[type="text"], select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        select {
-            margin-bottom: 20px;
-        }
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
+<?php
+include("../../../connection.php");
+
+$document_id = $document_name = $category_name = $sub_category_name =  "";
+$err_dn = '';
+$err_cn = '';
+$err_scn = '';
+$uploadErr = '';
+
+// Get document ID from URL parameter
+$document_id = $_GET['document_id'] ?? '';
+
+// Fetch document data from database
+$document_query = "SELECT * FROM documents WHERE document_id = '$document_id'";
+$document_result = mysqli_query($connection, $document_query);
+
+if ($document_result) {
+    $document_data = $document_result->fetch_assoc();
+    $document_name = $document_data['document_name'];
+    $category_name = $document_data['category_id'];
+    $sub_category_name = $document_data['sub_category_id'];
+} else {
+    echo "Error fetching document data: " . mysqli_error($connection);
+}
+
+?>
+
+<script type="text/javascript">
+    var sub_categories = [];
+
     <?php
+        $sub_categories_query = "SELECT * FROM sub_category";  
+        $sub_categories_result = mysqli_query($connection, $sub_categories_query);
+        if ($sub_categories_result) {
+            while ($row = $sub_categories_result->fetch_assoc()) {
+                // Create an associative array for each row
+                $data = [
+                    'id' => $row['sub_category_id'],
+                    'category_id' => $row['category_id'],
+                    'sub_category_name' => $row['sub_category_name']
+                ];
+                // Encode the array as JSON and directly push it into the JavaScript array
+                echo "sub_categories.push(" . json_encode($data) . ");\n";
+            }
+        }
+    ?>
+</script>
 
-    if(isset($_REQUEST["document_id"]) && is_numeric($_REQUEST["document_id"])) {
-        $document_id = $_REQUEST["document_id"];
+<?php
 
-        include("connection.php");
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize input data
+    $document_name = htmlspecialchars($_POST["document_name"] ?? '');
+    $category_name = htmlspecialchars($_POST["category_name"] ?? '');
+    $sub_category_name = htmlspecialchars($_POST["sub_category_name"] ?? '');
 
-        $get_record = mysqli_query($connection, "SELECT * FROM documents WHERE document_id='$document_id'");
-
-        if(mysqli_num_rows($get_record) > 0) {
-
-            $row_edit = mysqli_fetch_assoc($get_record);
-            $document_name = $row_edit["document_name"];
-            $category = $row_edit["category_name"];
-            $sub_category = $row_edit["sub_category_name"];
-        } else {
-
-            echo "Document does not exist!";
-            exit; 
+    // Check for errors
+    if($document_name == '' || $category_name == '' || $sub_category_name == '') {
+        // Error handling
+        if(!$document_name) {
+            $err_dn = "Document name is required!";
+        }
+        if(!$category_name) {
+            $err_cn = "Category name is required!";
+        }
+        if(!$sub_category_name) {
+            $err_scn = "Subcategory name is required!";
         }
     } else {
+        // No error: Update document
+        $update_query = "UPDATE documents 
+                        SET document_name = '$document_name', 
+                            category_id = '$category_name', 
+                            sub_category_id = '$sub_category_name' 
+                        WHERE document_id = '$document_id'";
 
-        echo "Invalid or missing Document!";
-        exit; 
+        $update_result = mysqli_query($connection, $update_query);
+
+        if ($update_result) {
+            echo "<script>alert('Document has been updated!')</script>";
+            echo "<script>window.location.href='../index.php';</script>";
+        } else {
+            echo "Error updating document: " . mysqli_error($connection);
+        }
     }
-    ?>
+}
+?>
 
-    <form method="POST" action="update_document.php">
-        <input type="hidden" name="document_id" value="<?php echo $document_id; ?>">
-        <label for="new_document_ame">Document:</label><br>
-        <input type="text" id="new_eq_name" name="new_eq_name" value="<?php echo isset($EQ_name) ? htmlspecialchars($EQ_name) : ''; ?>"><br>
-        <label for="new_eq_model">Model:</label><br>
-        <input type="text" id="new_eq_model" name="new_eq_model" value="<?php echo isset($EQ_model) ? htmlspecialchars($EQ_model) : ''; ?>"><br>
-        <label for="new_status">Status:</label><br>
-        <select id="new_status" name="new_status">
-           <option value="Available" <?php { echo "selected"; } ?>>Available</option>
-            <option value="In Use" <?php { echo "selected"; } ?>>In Use</option>
+<!DOCTYPE html>
+<html lang="en">
 
-        <input type="submit" value="Update">
-    </form>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Neon Admin Panel" />
+    <meta name="author" content="" />
+    <link rel="icon" href="/capstone/template/assets/images/favicon.ico">
+    <title>Edit Document</title>
+
+    <?php include('../../../components/common-styles.php') ?>
+
+</head>
+
+<body class="page-body  page-fade" data-url="http://neon.dev">
+
+    <div class="page-container">
+
+        <?php include('../../../components/sidebar.php') ?>
+
+        <div class="main-content">
+
+            <div class="row">
+                <?php include('../../../components/navbar.php') ?>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="panel panel-primary" data-collapsed="0">
+
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <ol class="breadcrumb bc-3">
+                                    <li>
+                                        <a href="../index.php">Files</a>
+                                    </li>
+                                    <li class="active">
+                                        <strong>Edit Document</strong>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div class="panel-options">
+                                <a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a>
+                                <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                                <a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+                                <a href="#" data-rel="close"><i class="entypo-cancel"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+
+                            <center><h2>Edit Document</h2></center>
+                            <form role="form" method="POST" action="" enctype="multipart/form-data" class="form-horizontal form-groups-bordered"><br>
+                                <div class="form-group">
+                                    <label for="field-1" class="col-sm-3 control-label">Document Name</label>
+
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" name="document_name" value="<?php echo htmlspecialchars($document_name); ?>" placeholder="Document Name">
+                                        <span class="error"><?php echo $err_dn; ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Category</label>
+
+                                    <div class="col-sm-5">
+                                        <select onchange="updateSubCategories()" class="form-control" name="category_name" id="category_name">
+                                            <option selected>-Please select an option-</option>
+                                            <?php
+                                            $query = "SELECT category_id, category_name FROM category";
+                                            $result = mysqli_query($connection, $query);
+                                            if ($result) {
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    $category = $row['category_name'];
+                                                    $c_id = $row['category_id'];
+                                                    $selected = ($c_id == $category_name) ? 'selected' : '';
+                                                    echo "<option value='$c_id' $selected>$category</option>";
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                        <span class="error"><?php echo $err_cn; ?></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="field-1" class="col-sm-3 control-label">Sub Category</label>
+
+                                    <div class="col-sm-5">
+                                        <select class="form-control" name="sub_category_name" id="sub_category_name">
+                                            <option selected>-Please select a sub-category-</option>
+                                        </select>
+                                        <span class="error"><?php echo $err_scn; ?></span>
+                                    </div>
+                                </div>
+
+                                <script type="text/javascript">
+                                function updateSubCategories() {
+                                    var categoryId = document.getElementById('category_name').value;
+                                    var subCategorySelect = document.getElementById('sub_category_name');
+
+                                    
+                                    subCategorySelect.innerHTML = '<option selected>-Please select a sub-category-</option>';
+
+                                    
+                                    sub_categories.forEach(function(subCategory) {
+                                        if (subCategory.category_id == categoryId) {
+                                            var option = document.createElement('option');
+                                            option.value = subCategory.id;
+                                            option.textContent = subCategory.sub_category_name;
+                                            subCategorySelect.appendChild(option);
+                                        }
+                                    });
+                                }
+                            </script>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Select Image</label>
+
+                                    <div class="col-sm-2">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <span class="btn btn-info btn-file">
+                                                <span class="fileinput-new">Select file</span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="file">
+                                            </span>
+                                            <span class="error"><?php echo $uploadErr; ?></span>
+                                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-5">
+                                        <button type="submit" class="btn btn-success">Update</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <?php include('../../../components/footer.php') ?>
+        </div>
+
+    </div>
+
+    <link rel="stylesheet" href="/capstone/template/assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/rickshaw/rickshaw.min.css">
+    <?php include('../../../components/common-scripts.php') ?>
+    <script src="/capstone/template/assets/js/neon-custom.js"></script>
+    <script src="/capstone/template/assets/js/neon-demo.js"></script>
+
 </body>
+
 </html>
