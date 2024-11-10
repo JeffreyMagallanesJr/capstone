@@ -63,6 +63,7 @@ $total_documents = $total_activities + $total_files;
 ?>
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -79,6 +80,8 @@ $total_documents = $total_activities + $total_files;
 	<title>Digitalized Document Management System | Dashboard</title>
 
 	<?php include('../components/common-styles.php') ?>
+
+    
 
 </head>
 

@@ -7,125 +7,88 @@ include("login_validation.php");
 <html lang="en">
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Neon Admin Panel" />
-    <meta name="author" content="" />
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Management System | Login</title>
     <link rel="icon" href="./template/assets/images/favicon.ico">
 
-    <title>Digitalized Document Management System | Login</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <link rel="stylesheet" href="./template/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css">
-    <link rel="stylesheet" href="./template/assets/css/font-icons/entypo/css/entypo.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic">
-    <link rel="stylesheet" href="./template/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="./template/assets/css/neon-core.css">
-    <link rel="stylesheet" href="./template/assets/css/neon-theme.css">
-    <link rel="stylesheet" href="./template/assets/css/neon-forms.css">
-    <link rel="stylesheet" href="./template/assets/css/custom.css">
-
-    <script src="./template/assets/js/jquery-1.11.3.min.js"></script>
-
+    <style>
+        body {
+            background: #1b242b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 600px; /* Increased width */
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+        .login-header img {
+            display: block;
+            margin: 0 auto 20px;
+        }
+        .description {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .error {
+            color: #dc3545;
+            font-size: 0.875em;
+        }
+    </style>
 </head>
 
-<body class="page-body login-page login-form-fall" data-url="http://neon.dev">
-
-
-    <!-- This is needed when you send requests via Ajax -->
-    <script type="text/javascript">
-        var baseurl = '';
-    </script>
+<body>
 
     <div class="login-container">
+        <div class="login-header text-center">
+            <img src="./template/assets/logo/mandalagan-logo.png" width="120" alt="Logo">
+        </div>
+        <h2 class="text-center mb-4">Login</h2>
+        <p class="description">Digitalized Document Management System for Barangay Mandalagan</p>
 
-        <div class="login-header login-caret">
-
-            <div class="login-content">
-
-                <a href="index.html" class="logo">
-                    <img src="./template/assets/logo/mandalagan-logo.png" width="120" alt="" />
-                </a>
-
-                <p class="description">
-                    Digitalized Document Management with Scheduling: <br>
-                    <span class="font-italic">A User Centric for Barangay Mandalagan</span>
-                </p>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    <input type="text" class="form-control" name="username" id="username" value="<?php echo $username; ?>" placeholder="Enter your username" required>
+                </div>
+                <span class="error"><?php echo $username_error ?? ''; ?></span>
             </div>
 
-        </div>
-
-        <div class="login-progressbar">
-            <div></div>
-        </div>
-
-        <div class="login-form">
-
-            <div class="login-content">
-
-                <form method="post" action="<?php htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
-                    <div class="form-group">
-
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="entypo-user"></i>
-                            </div>
-
-                            <input type="text" class="form-control" name="username" id="username" value="<?php echo $username; ?>" placeholder="Username" autocomplete="off" autofocus" required >
-                            <span class="error"><?php echo $username_error; ?></span><br>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="entypo-key"></i>
-                            </div>
-
-                            <input type="password" class="form-control" value="<?php echo $password; ?>" name="password" id="password" placeholder="Password" autocomplete="off""required />
-                            <span class="error"><?php echo $password_error; ?></span>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success">
-                            <i class="entypo-login"></i>
-                            Login
-                        </button>
-                    </div>
-                </form>
-
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <span class="error"><?php echo $password_error ?? ''; ?></span>
             </div>
 
-        </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
 
+        <div class="text-center mt-4">
+            <a href="#" class="link-secondary">Forgot Password?</a>
+        </div>
     </div>
 
-
-    <!-- Bottom scripts (common) -->
-    <script src="./template/assets/js/gsap/TweenMax.min.js"></script>
-    <script src="./template/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
-    <script src="./template/assets/js/bootstrap.js"></script>
-    <script src="./template/assets/js/joinable.js"></script>
-    <script src="./template/assets/js/resizeable.js"></script>
-    <script src="./template/assets/js/neon-api.js"></script>
-    <script src="./template/assets/js/jquery.validate.min.js"></script>
-    <script src="./template/assets/js/neon-login.js"></script>
-
-
-    <!-- JavaScripts initializations and stuff -->
-    <script src="./template/assets/js/neon-custom.js"></script>
-
-
-    <!-- Demo Settings -->
-    <script src="./template/assets/js/neon-demo.js"></script>
-
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
