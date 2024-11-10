@@ -50,15 +50,15 @@
         </li>
 
         <li class="notifications dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="Messages">
-                <i class="entypo-mail"></i>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="Reminders">
+                <i class="entypo-bell"></i>
                 <span class="badge badge-secondary">10</span>
             </a>
             <!-- Dropdown menu content -->
         </li>
 
         <li class="notifications dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="Tasks">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="History">
                 <i class="entypo-doc-text"></i>
                 <span class="badge badge-warning">1</span>
             </a>
