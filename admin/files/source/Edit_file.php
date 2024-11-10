@@ -111,7 +111,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="main-content">
 
             <div class="row">
-                <?php include('../../../components/navbar.php') ?>
+                <?php
+                include('../../../components/navbar.php');
+                renderNavbar($connection);
+                ?>
             </div>
 
             <div class="row">

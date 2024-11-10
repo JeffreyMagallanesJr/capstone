@@ -57,7 +57,10 @@ if (!$result) {
         <div class="main-content">
 
             <div class="row">
-                <?php include('../../components/navbar.php') ?>
+                <?php 
+                include('../../components/navbar.php');
+                renderNavbar($connection);
+                ?>
             </div>
 
             <hr />

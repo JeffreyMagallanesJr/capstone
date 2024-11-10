@@ -28,7 +28,10 @@
             <div class="row">
 
                 <!-- Profile Info and Notifications -->
-                <?php include('../../components/navbar.php') ?>
+                <?php 
+                include('../../components/navbar.php');
+                renderNavbar($connection);
+                ?>
 
             </div>
 
