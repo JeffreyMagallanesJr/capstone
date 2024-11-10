@@ -81,10 +81,6 @@ include("login_validation.php");
 
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
-
-        <div class="text-center mt-4">
-            <a href="#" class="link-secondary">Forgot Password?</a>
-        </div>
     </div>
 
     <!-- Bootstrap JS Bundle -->
