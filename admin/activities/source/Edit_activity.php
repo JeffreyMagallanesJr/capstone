@@ -1,78 +1,98 @@
 <?php
-// Initialize error variables
-$document_nameErr = $category_nameErr = $sub_category_nameErr = $uploadErr = "";
-$document_name = $category = $sub_category = $date_time_reminder = "";
+include("../../../connection.php");
 
-if (isset($_REQUEST["document_id"]) && is_numeric($_REQUEST["document_id"])) {
-    $document_id = intval($_REQUEST["document_id"]); // Ensure it's an integer
-    
-    include("connection.php");
+$document_id = $document_name = $category_name = $sub_category_name = $date_time_reminder =  "";
+$err_dn = '';
+$err_cn = '';
+$err_scn = '';
+$uploadErr = '';
 
-    // Using prepared statement for security
-    $stmt = $connection->prepare("SELECT * FROM documents WHERE document_id = ?");
-    $stmt->bind_param("i", $document_id);
-    $stmt->execute();
-    $get_record = $stmt->get_result();
+// Get document ID from URL parameter
+$document_id = $_GET['document_id'] ?? '';
 
-    if ($get_record->num_rows > 0) {
-        $row_edit = $get_record->fetch_assoc();
-        $document_name = $row_edit["document_name"];
-        $category = $row_edit["category_name"];
-        $sub_category = $row_edit["sub_category_name"];
-    } else {
-        echo "Document does not exist!";
-        exit;
-    }
+// Fetch document data from database
+$document_query = "SELECT d.document_id, d.document_name, d.category_id, d.sub_category_id, cal.date_time_reminder
+                   FROM documents d
+                   JOIN calendar cal ON d.document_id = cal.document_id  
+                   WHERE cal.date_time_reminder IS NOT NULL AND d.document_id = '$document_id'";
+$document_result = mysqli_query($connection, $document_query);
+
+if ($document_result) {
+    $document_data = $document_result->fetch_assoc();
+    $document_name = $document_data['document_name'];
+    $category_name = $document_data['category_id'];
+    $sub_category_name = $document_data['sub_category_id'];
+    $date_time_reminder = $document_data['date_time_reminder'];
 } else {
-    echo "Invalid or missing Document!";
-    exit;
+    echo "Error fetching document data: " . mysqli_error($connection);
 }
 
-// Fetch categories and subcategories from the database
-$categories = [];
-$sub_categories = [];
-$category_query = "SELECT category_id, category_name FROM category";
-$category_result = mysqli_query($connection, $category_query);
-if ($category_result) {
-    while ($row = mysqli_fetch_assoc($category_result)) {
-        $categories[] = $row; // Store categories for later use
-    }
-}
+?>
 
-// Fetch subcategories
-$sub_category_query = "SELECT sub_category_id, sub_category_name, category_id FROM sub_category";
-$sub_category_result = mysqli_query($connection, $sub_category_query);
-if ($sub_category_result) {
-    while ($row = mysqli_fetch_assoc($sub_category_result)) {
-        $sub_categories[] = $row; // Store subcategories for later use
-    }
-}
+<script type="text/javascript">
+    var sub_categories = [];
 
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate and process the form data here
-    $document_name = htmlspecialchars($_POST["document_name"]);
-    $category_id = intval($_POST["category_name"]);
-    $sub_category_id = intval($_POST["sub_category_name"]);
-    $date_time_reminder = $_POST["date_time_reminder"];
-
-    // Handle file upload securely
-    if (isset($_FILES['file']) && $_FILES['file']['size'] > 0) {
-        $allowed_types = ['image/jpeg', 'image/png', 'application/pdf'];
-        if (in_array($_FILES['file']['type'], $allowed_types)) {
-            $upload_dir = 'uploads/';
-            $file_path = $upload_dir . basename($_FILES['file']['name']);
-            if (move_uploaded_file($_FILES['file']['tmp_name'], $file_path)) {
-                // File upload successful
-            } else {
-                $uploadErr = "File upload failed!";
+    <?php
+        $sub_categories_query = "SELECT * FROM sub_category";  
+        $sub_categories_result = mysqli_query($connection, $sub_categories_query);
+        if ($sub_categories_result) {
+            while ($row = $sub_categories_result->fetch_assoc()) {
+                // Create an associative array for each row
+                $data = [
+                    'id' => $row['sub_category_id'],
+                    'category_id' => $row['category_id'],
+                    'sub_category_name' => $row['sub_category_name']
+                ];
+                // Encode the array as JSON and directly push it into the JavaScript array
+                echo "sub_categories.push(" . json_encode($data) . ");\n";
             }
+        }
+    ?>
+</script>
+
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize input data
+    $document_name = htmlspecialchars($_POST["document_name"] ?? '');
+    $category_name = htmlspecialchars($_POST["category_name"] ?? '');
+    $sub_category_name = htmlspecialchars($_POST["sub_category_name"] ?? '');
+    $date_time_reminder = htmlspecialchars($_POST["date_time_reminder"] ?? '');
+
+    // Check for errors
+    if($document_name == '' || $category_name == '' || $sub_category_name == '') {
+        // Error handling
+        if(!$document_name) {
+            $err_dn = "Document name is required!";
+        }
+        if(!$category_name) {
+            $err_cn = "Category name is required!";
+        }
+        if(!$sub_category_name) {
+            $err_scn = "Subcategory name is required!";
+        }
+    } else {
+        // No error: Update document
+        $update_query_documents = "UPDATE documents 
+                        SET document_name = '$document_name', 
+                            category_id = '$category_name', 
+                            sub_category_id = '$sub_category_name' 
+                        WHERE document_id = '$document_id'";
+
+        $update_query_calendar = "UPDATE calendar 
+                        SET date_time_reminder = '$date_time_reminder' 
+                        WHERE document_id = '$document_id'";
+
+        $update_result_documents = mysqli_query($connection, $update_query_documents);
+        $update_result_calendar = mysqli_query($connection, $update_query_calendar);
+
+        if ($update_result_documents && $update_result_calendar) {
+            echo "<script>alert('Document has been updated!')</script>";
+            echo "<script>window.location.href='../index.php';</script>";
         } else {
-            $uploadErr = "Invalid file type!";
+            echo "Error updating document: " . mysqli_error($connection);
         }
     }
-
-    // Further process or save the data...
 }
 ?>
 
@@ -84,32 +104,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Neon Admin Panel" />
-    <meta name="author" content="" />   
+    <meta name="author" content="" />
     <link rel="icon" href="/capstone/template/assets/images/favicon.ico">
-    <title>Digitalized Document Management System | Dashboard</title>
+    <title>Edit Document</title>
 
     <?php include('../../../components/common-styles.php') ?>
+
 </head>
 
-<body class="page-body page-fade" data-url="http://neon.dev">
+<body class="page-body  page-fade" data-url="http://neon.dev">
+
     <div class="page-container">
+
         <?php include('../../../components/sidebar.php') ?>
 
         <div class="main-content">
+
             <div class="row">
                 <?php include('../../../components/navbar.php') ?>
             </div>
-            
+
             <div class="row">
                 <div class="col-md-12">
+
                     <div class="panel panel-primary" data-collapsed="0">
+
                         <div class="panel-heading">
                             <div class="panel-title">
                                 <ol class="breadcrumb bc-3">
-                                    <li><a href="../index.php">Files</a></li>
-                                    <li class="active"><strong>Add new activity</strong></li>
+                                    <li>
+                                        <a href="../index.php">Files</a>
+                                    </li>
+                                    <li class="active">
+                                        <strong>Edit Document</strong>
+                                    </li>
                                 </ol>
                             </div>
+
                             <div class="panel-options">
                                 <a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a>
                                 <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
@@ -119,70 +150,92 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <div class="panel-body">
-                            <center><h2>Add New Activity</h2></center>
-                            <form role="form" method="POST" enctype="multipart/form-data" class="form-horizontal form-groups-bordered">
-                                <br>
 
+                            <center><h2>Edit Document</h2></center>
+                            <form role="form" method="POST" action="" enctype="multipart/form-data" class="form-horizontal form-groups-bordered"><br>
                                 <div class="form-group">
                                     <label for="field-1" class="col-sm-3 control-label">Document Name</label>
+
                                     <div class="col-sm-5">
                                         <input type="text" class="form-control" name="document_name" value="<?php echo htmlspecialchars($document_name); ?>" placeholder="Document Name">
-                                        <span class="error"><?php echo $document_nameErr; ?></span>
+                                        <span class="error"><?php echo $err_dn; ?></span>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Category</label>
+
                                     <div class="col-sm-5">
                                         <select onchange="updateSubCategories()" class="form-control" name="category_name" id="category_name">
                                             <option selected>-Please select an option-</option>
-                                            <?php foreach ($categories as $cat): ?>
-                                                <option value="<?php echo $cat['category_id']; ?>"><?php echo $cat['category_name']; ?></option>
-                                            <?php endforeach; ?>
+                                            <?php
+                                            $query = "SELECT category_id, category_name FROM category";
+                                            $result = mysqli_query($connection, $query);
+                                            if ($result) {
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    $category = $row['category_name'];
+                                                    $c_id = $row['category_id'];
+                                                    $selected = ($c_id == $category_name) ? 'selected' : '';
+                                                    echo "<option value='$c_id' $selected>$category</option>";
+                                                }
+                                            }
+                                            ?>
                                         </select>
-                                        <span class="error"><?php echo $category_nameErr; ?></span>
+                                        <span class="error"><?php echo $err_cn; ?></span>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="field-1" class="col-sm-3 control-label">Sub Category</label>
+
                                     <div class="col-sm-5">
                                         <select class="form-control" name="sub_category_name" id="sub_category_name">
                                             <option selected>-Please select a sub-category-</option>
                                         </select>
-                                        <span class="error"><?php echo $sub_category_nameErr; ?></span>
+                                        <span class="error"><?php echo $err_scn; ?></span>
                                     </div>
                                 </div>
 
                                 <script type="text/javascript">
-                                    var sub_categories = <?php echo json_encode($sub_categories); ?>;
+                                function updateSubCategories() {
+                                    var categoryId = document.getElementById('category_name').value;
+                                    var subCategorySelect = document.getElementById('sub_category_name');
 
-                                    function updateSubCategories() {
-                                        var categoryId = document.getElementById('category_name').value;
-                                        var subCategorySelect = document.getElementById('sub_category_name');
+                                    
+                                    subCategorySelect.innerHTML = '<option selected>-Please select a sub-category-</option>';
 
-                                        subCategorySelect.innerHTML = '<option selected>-Please select a sub-category-</option>';
+                                    var selectedSubCategoryId = "<?php echo $sub_category_name; ?>";
+                                    
+                                    sub_categories.forEach(function(subCategory) {
+                                        if (subCategory.category_id == categoryId) {
+                                            var option = document.createElement('option');
+                                            option.value = subCategory.id;
+                                            option.textContent = subCategory.sub_category_name;
 
-                                        sub_categories.forEach(function(subCategory) {
-                                            if (subCategory.category_id == categoryId) {
-                                                var option = document.createElement('option');
-                                                option.value = subCategory.sub_category_id;
-                                                option.textContent = subCategory.sub_category_name;
-                                                subCategorySelect.appendChild(option);
+                                            if (subCategory.id == selectedSubCategoryId) {
+                                                option.selected = true;
                                             }
-                                        });
-                                    }
-                                </script>
+
+                                            subCategorySelect.appendChild(option);
+                                        }
+                                    });
+                                }
+
+                                document.addEventListener("DOMContentLoaded", updateSubCategories);
+                            </script>
 
                                 <div class="form-group">
                                     <label for="field-1" class="col-sm-3 control-label">Date and Time Reminder</label>
                                     <div class="col-sm-5">
-                                        <input type="datetime-local" class="form-control" name="date_time_reminder" value="<?php echo htmlspecialchars($date_time_reminder); ?>">
+                                        <input type="datetime-local" class="form-control" name="date_time_reminder" 
+                                            value="<?php echo htmlspecialchars(date('Y-m-d\TH:i', strtotime($date_time_reminder))); ?>">
                                     </div>
                                 </div>
 
+
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Select Image</label>
+
                                     <div class="col-sm-2">
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                             <span class="btn btn-info btn-file">
@@ -191,29 +244,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <input type="file" name="file">
                                             </span>
                                             <span class="error"><?php echo $uploadErr; ?></span>
-                                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput">&times;</a>
+                                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-5">
-                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <button type="submit" class="btn btn-success">Update</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
 
             <hr />
+
             <?php include('../../../components/footer.php') ?>
         </div>
+
     </div>
 
-    <!-- Bottom scripts -->
+    <link rel="stylesheet" href="/capstone/template/assets/js/jvectormap/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="/capstone/template/assets/js/rickshaw/rickshaw.min.css">
     <?php include('../../../components/common-scripts.php') ?>
+    <script src="/capstone/template/assets/js/neon-custom.js"></script>
+    <script src="/capstone/template/assets/js/neon-demo.js"></script>
+
 </body>
 
 </html>
