@@ -116,9 +116,9 @@ if (!$result) {
                                 echo "<td>" . $row['date_received'] . "</td>";
                                 // Add your action buttons or any other data as needed
                                 echo "<td>";
-                                echo "<a href=' ./source/Edit_file.php' class='btn btn-sm btn-info text-uppercase'>Update</a>";
+                                echo "<a href='./source/Edit_file.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-info text-uppercase'>Edit</a>";
                                 echo "<button class='btn btn-sm btn-danger text-uppercase'>Archive</button>";
-                                echo "<a href='./source/details.php' class='btn btn-sm btn-primary text-uppercase'>View</a>";
+                                echo "<a href='./source/details.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-primary text-uppercase'>View</a>";
                                 echo "</td>";
                                 echo "</tr>";
                             }

@@ -194,16 +194,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     
                                     subCategorySelect.innerHTML = '<option selected>-Please select a sub-category-</option>';
 
+                                    var selectedSubCategoryId = "<?php echo $sub_category_name; ?>";
                                     
                                     sub_categories.forEach(function(subCategory) {
                                         if (subCategory.category_id == categoryId) {
                                             var option = document.createElement('option');
                                             option.value = subCategory.id;
                                             option.textContent = subCategory.sub_category_name;
+
+                                            if (subCategory.id == selectedSubCategoryId) {
+                                                option.selected = true;
+                                            }
+
                                             subCategorySelect.appendChild(option);
                                         }
                                     });
                                 }
+
+                                document.addEventListener("DOMContentLoaded", updateSubCategories);
                             </script>
 
                                 <div class="form-group">
