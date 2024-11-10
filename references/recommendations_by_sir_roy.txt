@@ -1,0 +1,16 @@
+Add Notes sa Calendar
+Add Session kay sa Login Logout
+Fix ang Update/Edit Feature
+Fix ang Archive
+Fix ang Upload (pdf file type and size limit)
+Add View Document feature in Calendar
+Add To Do List Dashboard and Notes
+Add Notification Feature
+Add More Categories and Sub-Categories
+Add SuperAdmin
+
+New System Idea:
+Case Checker. Check Person's hit in NBI or their crimes, if they have a hit, they can't get a clearance.
+
+New System Idea:
+Document Management System of SK Organization sa Brgy. Mandalagan.
