@@ -30,7 +30,6 @@
                 <!-- Profile Info and Notifications -->
                 <?php 
                 include('../../components/navbar.php');
-                renderNavbar($connection);
                 ?>
 
             </div>
