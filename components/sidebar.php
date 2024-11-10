@@ -9,7 +9,9 @@
                 <a href="#">
                     <img src="/capstone/template/assets/logo/mandalagan-logo.png" width="120" alt="" />
                 </a>
-                <h3 class="" style="color: #fff !important; margin-bottom: 0px !important">DMS</h3>
+                <h3 class="" style="color: #fff !important; margin-bottom: 0px !important">Document</h3>
+                <h3 class="" style="color: #fff !important; margin-bottom: 0px !important">Management</h3>
+                <h3 class="" style="color: #fff !important; margin-bottom: 0px !important">System</h3>
             </div>
 
 
