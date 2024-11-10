@@ -1,4 +1,4 @@
-<div class="col-md-6 col-sm-8 clearfix">
+<div class="col-md-6 col-sm-8 clearfix" style="display: inline-block; width: 100%;">
 
     <ul class="user-info pull-left   pull-none-xsm">
         <li class="profile-info dropdown">
