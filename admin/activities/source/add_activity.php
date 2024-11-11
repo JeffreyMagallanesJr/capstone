@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target_file = $target_dir . basename($_FILES["file"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        if (!in_array($imageFileType, ["jpg", "png", "jpeg", "gif"])) {
+        if (!in_array($imageFileType, ["jpg", "png", "jpeg", "gif", "pdf"])) {
             $uploadErr = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
         } elseif ($_FILES["file"]["size"] > 5000000) {
             $uploadErr = "Sorry, your file is too large.";

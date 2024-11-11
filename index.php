@@ -23,14 +23,14 @@ include("login_validation.php");
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 97vh;
             margin: 0;
         }
         .login-container {
-            width: 100%;
-            max-width: 600px; /* Increased width */
+            width: 80%;
+            max-width: 500px; 
             background: #fff;
-            border-radius: 12px;
+            border-radius: 20px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             padding: 40px;
         }
