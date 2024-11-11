@@ -53,7 +53,14 @@ if (!$result) {
 
         <div class="main-content">
             <div class="row">
+<<<<<<< HEAD
                 <?php include('../../components/navbar.php') ?>
+=======
+                <?php
+                include('../../components/navbar.php');
+                renderNavbar($connection);
+                ?> 
+>>>>>>> bb616ee1606b0efb0d1803e527a90c918bf661a8
             </div>
 
             <hr />

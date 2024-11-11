@@ -96,7 +96,11 @@ $total_documents = $total_activities + $total_files;
 			<div class="row">
 
 				<!-- Profile Info and Notifications -->
-				<?php include('../components/navbar.php') ?>
+				<?php 
+                include('../components/navbar.php');
+                renderNavbar($connection);
+                ?>
+                
 
 			</div>
 
