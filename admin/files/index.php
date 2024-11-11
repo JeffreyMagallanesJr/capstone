@@ -43,10 +43,46 @@ if (!$result) {
 
     <!-- Custom Styling -->
     <style>
-        .table-cont {
-            padding: 2em !important;
-        }
-    </style>
+    .table-cont {
+        background-color: #f9f9f9; 
+    }
+
+    .datatable th, .datatable td {
+        font-weight: 1;
+        color: #333; 
+    }
+
+    .btn {
+        margin:1px;
+        padding: 4px;
+    }
+
+    body {
+        font-family: 'Arial', sans-serif; 
+        color: black; 
+    }
+
+    .breadcrumb {
+        background-color: #e9ecef; 
+        padding:;
+    }
+
+    /* Modify the table appearance */
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+
+    .table-bordered th {
+        background-color: #f1f1f1;
+        color:black;
+        text-transform: uppercase;
+    }
+
+    .btn-primary, .btn-info, .btn-danger {
+        font-weight: 100;
+    }
+</style>
+
 </head>
 
 <body class="page-body page-fade" data-url="http://neon.dev">
@@ -74,10 +110,9 @@ if (!$result) {
 
             <div class="row">
                 <div class="col-md-12">
-                    <a href="source/add_file.php" class="btn btn-primary">Add File</a>
+                    <a href="source/add_file.php" class="btn btn-success">Add File</a>
                 </div>
             </div>
-
             <div class="row table-cont">
                 <div class="col-13">
                     <script type="text/javascript">
@@ -86,10 +121,7 @@ if (!$result) {
                             $table4.DataTable({
                                 dom: 'Bfrtip',
                                 buttons: [
-                                    'copyHtml5',
-                                    'excelHtml5',
-                                    'csvHtml5',
-                                    'pdfHtml5'
+                                    
                                 ]
                             });
                         });

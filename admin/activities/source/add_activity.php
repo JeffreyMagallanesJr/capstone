@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="panel-title">
                                 <ol class="breadcrumb bc-3">
                                     <li>
-                                        <a href="../index.php">Files</a>
+                                        <a href="../index.php">Activities</a>
                                     </li>
                                     <li class="active">
                                         <strong>Add new activity</strong>

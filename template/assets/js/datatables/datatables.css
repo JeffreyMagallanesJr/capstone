@@ -294,8 +294,8 @@ table.dataTable td {
   float: left;
 }
 .dataTables_wrapper .dataTables_filter {
-  float: right;
-  text-align: right;
+  float: none !important;
+  text-align: center !important;
 }
 .dataTables_wrapper .dataTables_filter input {
   margin-left: 0.5em;

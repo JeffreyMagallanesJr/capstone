@@ -42,10 +42,45 @@ if (!$result) {
     <link rel="stylesheet" href="/capstone/template/assets/js/select2/select2.css">
 
     <style>
-        .table-cont {
-            padding: 2em !important;
-        }
-    </style>
+    .table-cont {
+        background-color: #f9f9f9; 
+    }
+
+    .datatable th, .datatable td {
+        font-weight: 1;
+        color: #333; 
+    }
+
+    .btn {
+        margin:1px;
+        padding: 4px;
+    }
+
+    body {
+        font-family: 'Arial', sans-serif; 
+        color: black; 
+    }
+
+    .breadcrumb {
+        background-color: #e9ecef; 
+        padding:;
+    }
+
+    /* Modify the table appearance */
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+
+    .table-bordered th {
+        background-color: #f1f1f1;
+        color:black;
+        text-transform: uppercase;
+    }
+
+    .btn-primary, .btn-info, .btn-danger {
+        font-weight: 100;
+    }
+</style>
 
 </head>
 
@@ -90,10 +125,7 @@ if (!$result) {
                             $table4.DataTable({
                                 dom: 'Bfrtip',
                                 buttons: [
-                                    'copyHtml5',
-                                    'excelHtml5',
-                                    'csvHtml5',
-                                    'pdfHtml5'
+                                   
                                 ]
                             });
                         });

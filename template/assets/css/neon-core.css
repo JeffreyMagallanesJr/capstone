@@ -8857,7 +8857,8 @@ blockquote.blockquote-danger small strong {
 .dataTables_wrapper > div input[type="search"],
 .dataTables_wrapper > div input[type="numbeer"] {
   background: #fff;
-  border: 1px solid #ebebeb;
+  border: 1px solid darkgrey;
+  border-radius: 5px;
   padding: 6px 10px;
   outline: 0;
 }

@@ -5,7 +5,7 @@
         <header class="logo-env">
             <!-- logo -->
             <div class="logo">
-                <a href="#">
+                <a href="/capstone/admin/dashboard.php">
                     <img src="/capstone/template/assets/logo/mandalagan-logo.png" width="120" alt="" />
                 </a>
                 <h3 class="" style="color: #fff !important; margin-bottom: 0px !important; font-size: 18px;">Document</h3>

@@ -86,10 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $table4.DataTable({
                     dom: 'Bfrtip',
                     buttons: [
-                        'copyHtml5',
-                        'excelHtml5',
-                        'csvHtml5',
-                        'pdfHtml5'
+                        
                     ]
                 });
             });

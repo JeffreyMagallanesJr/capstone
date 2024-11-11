@@ -7,3 +7,14 @@
 body {
 	
 }
+
+.dataTables_wrapper > div label {
+    margin-bottom: 0;
+    font-weight:bold;
+    color:black;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    float: none;
+    left: 200px;
+}

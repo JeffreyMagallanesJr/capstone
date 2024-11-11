@@ -59,11 +59,11 @@ function renderNavbar($connection) {
     $history_result = mysqli_query($connection, $history_query);
     ?>
 
-    <div class="col-md-6 col-sm-8 clearfix" style="display: inline-block; width: 100%;">
+    <div class="col-md-6 col-sm-8 clearfix" style="display: inline; width: 100%;">
         <ul class="user-info pull-left pull-none-xsm">
             <li class="profile-info dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Profile">
-                    <img src="/capstone/template/assets/users/czar.jpg" alt="" class="img-circle" width="44" />
+                    <img src="/capstone/profile/admin.jpg" alt="" class="img-circle" width="44" />
                     Barangay Secretary
                 </a>
                 <ul class="dropdown-menu">
