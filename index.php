@@ -28,7 +28,7 @@ include("login_validation.php");
         }
         .login-container {
             width: 100%;
-            max-width: 600px; /* Increased width */
+            max-width: 500px; 
             background: #fff;
             border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
