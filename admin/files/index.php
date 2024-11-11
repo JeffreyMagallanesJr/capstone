@@ -115,15 +115,9 @@ if (!$result) {
                                 echo "<td>" . $row['sub_category_name'] . "</td>";
                                 echo "<td>" . $row['date_received'] . "</td>";
                                 echo "<td>";
-<<<<<<< HEAD
                                 echo "<a href='./source/Edit_file.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-info text-uppercase'>Edit</a>";
                                 echo "<a href='./source/archive.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-danger text-uppercase'>Archive</a>";
-=======
-                                echo "<a href='./source/Edit_file.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-info text-uppercase'>Edit</a> ";
-                                echo "<a href='./source/archive.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-danger text-uppercase'>Archive</a> ";
->>>>>>> origin/view_document
                                 echo "<a href='./source/details.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-primary text-uppercase'>View</a>";
-                                echo "</td>";
                                 echo "</tr>";
                             }
                             ?>
