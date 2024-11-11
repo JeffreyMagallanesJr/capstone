@@ -7,16 +7,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         JOIN category c ON d.category_id = c.category_id
         JOIN sub_category s ON d.sub_category_id = s.sub_category_id
         JOIN calendar cal ON d.document_id = cal.document_id  
-        WHERE cal.date_time_reminder IS NOT NULL";
-        
+        WHERE cal.date_time_reminder IS NOT NULL
+        AND d.is_archived != 1";  // Exclude archived documents
 }
+
 $result = mysqli_query($connection, $query);
 
 if (!$result) {
     die("Query failed: " . mysqli_error($connection));
 }
-
 ?>
+
 
 
 <!DOCTYPE html>
@@ -123,7 +124,7 @@ if (!$result) {
                                     // Add your action buttons or any other data as needed
                                     echo "<td>";
                                     echo "<a href='./source/Edit_activity.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-info text-uppercase'>Edit</a>";
-                                    echo "<button class='btn btn-sm btn-danger text-uppercase'>Archive</button>";
+                                    echo "<a href='./source/archive.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-danger text-uppercase'>Archive</a>";
                                     echo "<a href='./source/details.php?document_id=" . $row['document_id'] . "' class='btn btn-sm btn-primary text-uppercase'>View</a>";
                                     echo "</td>";
                                     echo "</tr>";

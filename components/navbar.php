@@ -20,7 +20,8 @@ function renderNavbar($connection) {
         JOIN 
             calendar cal ON d.document_id = cal.document_id  
         WHERE 
-            cal.date_time_reminder <= '$currentDateTime'
+            cal.date_time_reminder <= '$currentDateTime' 
+            AND d.is_archived != 1
     ";
 
     $activities_result = mysqli_query($connection, $query);
@@ -37,6 +38,7 @@ function renderNavbar($connection) {
             calendar cal ON d.document_id = cal.document_id  
         WHERE 
             cal.date_time_reminder > '$currentDateTime'
+            AND d.is_archived != 1
     ";
 
     $reminders_result = mysqli_query($connection, $reminders_query);
@@ -50,6 +52,8 @@ function renderNavbar($connection) {
             documents d
         JOIN 
             calendar cal ON d.document_id = cal.document_id
+        WHERE 
+            d.is_archived != 1
     ";
 
     $history_result = mysqli_query($connection, $history_query);
