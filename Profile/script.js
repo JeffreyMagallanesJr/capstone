@@ -1,40 +1,47 @@
-// Get elements
+// Get the elements
 const profilePicture = document.getElementById('profile-picture');
 const pictureUpload = document.getElementById('picture-upload');
-const uploadButton = document.getElementById('upload-button');
 const nameInput = document.getElementById('name-input');
 const saveButton = document.getElementById('save-button');
 
-// Add event listeners
-uploadButton.addEventListener('click', () => {
-    pictureUpload.click();
+// Load saved profile picture and name from localStorage if available
+window.onload = function() {
+    const savedPicture = localStorage.getItem('profilePicture');
+    const savedName = localStorage.getItem('profileName');
+    
+    // If there's a saved profile picture, set it
+    if (savedPicture) {
+        profilePicture.src = savedPicture;
+    }
+    
+    // If there's a saved profile name, set it
+    if (savedName) {
+        nameInput.value = savedName;
+    }
+};
+
+// Handle image upload
+pictureUpload.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            profilePicture.src = e.target.result;
+        };
+        
+        reader.readAsDataURL(file);  // Convert the image to a base64 URL
+    }
 });
 
-pictureUpload.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-        profilePicture.src = reader.result;
-    };
-    reader.readAsDataURL(file);
+// Save changes
+saveButton.addEventListener('click', function() {
+    const newName = nameInput.value;
+    const newPicture = profilePicture.src;
+    
+    // Save the new name and picture in localStorage
+    localStorage.setItem('profileName', newName);
+    localStorage.setItem('profilePicture', newPicture);
+    
+    alert("Profile updated successfully!");
 });
-
-saveButton.addEventListener('click', () => {
-    const name = nameInput.value;
-    const pictureSrc = profilePicture.src;
-    // Save changes to local storage or other client-side storage
-    localStorage.setItem('userName', name);
-    localStorage.setItem('userPicture', pictureSrc);
-    alert('Changes saved!');
-});
-
-// Load saved data from local storage
-const savedName = localStorage.getItem('userName');
-const savedPicture = localStorage.getItem('userPicture');
-
-if (savedName) {
-    nameInput.value = savedName;
-}
-if (savedPicture) {
-    profilePicture.src = savedPicture;
-}

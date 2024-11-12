@@ -93,8 +93,7 @@ function renderNavbar($connection) {
                 </a>
                 <ul class="dropdown-menu">
                     <li class="caret"></li>
-                    <li><a href="/capstone/Profile/index.html" title="Edit Profile"><i class="entypo-user"></i> Edit Profile</a></li>
-                    <li><a href="mailbox.html" title="Inbox"><i class="entypo-mail"></i> Inbox</a></li>
+                    <li><a href="/capstone/Profile/index.ph" title="Edit Profile"><i class="entypo-user"></i> Edit Profile</a></li>
                     <li><a href="/capstone/admin/calendar/index.php" title="Calendar"><i class="entypo-calendar"></i> Calendar</a></li>
                     <div class="col-md-6 col-sm-4 clearfix hidden-xs">
                         <ul class="list-inline links-list pull-right">
@@ -116,11 +115,11 @@ function renderNavbar($connection) {
                     <?php 
                     if (mysqli_num_rows($activities_result) > 0) {
                         while ($row = mysqli_fetch_assoc($activities_result)) {
-                            $timeAgo = timeAgo($row['date_time_reminder']);
+                            $now = timeAgo($row['date_time_reminder']);
                             echo "<li>";
                             echo "<a href='#' title='{$row['document_name']}'>";
                             echo "<i class='entypo-doc-text'></i> Reminder for {$row['document_name']} (Due: {$row['date_time_reminder']})";
-                            echo "<br><span class='line small'>$timeAgo</span>";
+                            echo "<br><span class='line small'>$now</span>";
                             echo "</a>";
                             echo "</li>";
                         }

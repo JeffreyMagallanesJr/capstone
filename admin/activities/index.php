@@ -112,7 +112,7 @@ if (!$result) {
             </ol>
             <div class="row">
     <div class="col-md-12">
-        <a href="source/add_activity.php" class="btn btn-primary">Add Activity</a>
+        <a href="source/add_activity.php" class="btn btn-success">Add Activity</a>
     </div>
 </div>
 
