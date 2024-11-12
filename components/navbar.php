@@ -108,8 +108,8 @@ function renderNavbar($connection) {
         <ul class="user-info pull-right pull-right-xs pull-none-xsm">
             <!-- Notifications dropdown -->
             <li class="notifications dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                    <i class="entypo-attention"></i>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="Notification">
+                    <i class="entypo-bell"></i>
                     <span class="badge badge-info"><?php echo mysqli_num_rows($activities_result); ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" style="max-height: 300px; overflow-y: auto; min-width: 200px; padding: 10px 15px;">
@@ -134,7 +134,7 @@ function renderNavbar($connection) {
             <!-- Reminders dropdown -->
             <li class="notifications dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="Reminders">
-                    <i class="entypo-bell"></i>
+                    <i class="entypo-clock"></i>
                     <span class="badge badge-secondary"><?php echo mysqli_num_rows($reminders_result); ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" style="max-height: 300px; overflow-y: auto; min-width: 200px; padding: 10px 15px;">
@@ -159,7 +159,7 @@ function renderNavbar($connection) {
             <!-- History dropdown -->
             <li class="notifications dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="History">
-                    <i class="entypo-doc-text"></i>
+                    <i class="entypo-back-in-time"></i>
                     <span class="badge badge-warning"><?php echo mysqli_num_rows($history_result); ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" style="max-height: 300px; overflow-y: auto; min-width: 200px; padding: 10px 15px;">

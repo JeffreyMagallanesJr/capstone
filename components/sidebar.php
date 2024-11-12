@@ -22,7 +22,7 @@
 
             <!-- open/close menu icon (mobile devices) -->
             <div class="sidebar-mobile-menu visible-xs">
-                <a href="#" class="with-animation">
+                <a href="" class="with-animation">
                     <i class="entypo-menu" style="font-size: 20px;"></i>
                 </a>
             </div>
