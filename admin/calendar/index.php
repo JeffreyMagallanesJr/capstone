@@ -45,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 $colors = array('color-blue', 'color-orange', 'color-primary', 'color-green');
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,79 +72,80 @@ $colors = array('color-blue', 'color-orange', 'color-primary', 'color-green');
     <script src="/capstone/template/assets/js/jquery-1.11.3.min.js"></script>
 </head>
 <body class="page-body" data-url="http://neon.dev">
-    <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+    <div class="page-container">
         <?php include('../../components/sidebar.php') ?>
         <div class="main-content">
             <div class="row">
-
                 <?php
                 include('../../components/navbar.php');
                 renderNavbar($connection);
                 ?>
             </div>
+
+            <div class="calendar-env">
+                <!-- Calendar Body -->
+                <div id="calendar"></div>
+            </div>
             
+            <hr />
+            <!-- Footer -->
+            <?php include('../../components/footer.php') ?>
 
-    		<div class="calendar-env">
-        <!-- Calendar Body -->
-        <div id="calendar"></div>
-    </div>
-    
-    <hr />
-    <!-- Footer -->
-    <?php include('../../components/footer.php') ?>
+            <!-- Imported styles on this page -->
+            <link rel="stylesheet" href="/capstone/template/assets/js/fullcalendar-2/fullcalendar.min.css">
 
-    <!-- Imported styles on this page -->
-    <link rel="stylesheet" href="/capstone/template/assets/js/fullcalendar-2/fullcalendar.min.css">
+            <!-- Bottom scripts (common) -->
+            <script src="/capstone/template/assets/js/gsap/TweenMax.min.js"></script>
+            <script src="/capstone/template/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
+            <script src="/capstone/template/assets/js/bootstrap.js"></script>
+            <script src="/capstone/template/assets/js/joinable.js"></script>
+            <script src="/capstone/template/assets/js/resizeable.js"></script>
+            <script src="/capstone/template/assets/js/neon-api.js"></script>
 
-    <!-- Bottom scripts (common) -->
-    <script src="/capstone/template/assets/js/gsap/TweenMax.min.js"></script>
-    <script src="/capstone/template/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js"></script>
-    <script src="/capstone/template/assets/js/bootstrap.js"></script>
-    <script src="/capstone/template/assets/js/joinable.js"></script>
-    <script src="/capstone/template/assets/js/resizeable.js"></script>
-    <script src="/capstone/template/assets/js/neon-api.js"></script>
+            <!-- Imported scripts on this page -->
+            <script src="/capstone/template/assets/js/moment.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
 
-    <!-- Imported scripts on this page -->
-    <script src="/capstone/template/assets/js/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
+            <!-- JavaScripts initializations and stuff -->
+            <script src="/capstone/template/assets/js/neon-custom.js"></script>
 
-    <!-- JavaScripts initializations and stuff -->
-    <script src="/capstone/template/assets/js/neon-custom.js"></script>
+            <!-- Demo Settings -->
+            <script src="/capstone/template/assets/js/neon-demo.js"></script>
 
-        <!-- Demo Settings -->
-        <script src="/capstone/template/assets/js/neon-demo.js"></script>
+            <script>
+                $(document).ready(function() {
+                    var calendar = $('#calendar');
+                    var events = <?= json_encode($events_by_date) ?>;
 
-<script>
-    $(document).ready(function() {
-        var calendar = $('#calendar');
-        var events = <?= json_encode($events_by_date) ?>;
+                    // Convert events to FullCalendar format
+                    var formattedEvents = [];
+                    $.each(events, function(date, events) {
+                        $.each(events, function(index, event) {
+                            formattedEvents.push({
+                                title: event.document_name,
+                                start: event.date_time_reminder,
+                                backgroundColor: '<?= $colors[array_rand($colors)] ?>',
+                                url: 'details.php?document_id=' + event.document_id // Add URL to direct to details.php
+                            });
+                        });
+                    });
 
-        // Convert events to FullCalendar format
-        var formattedEvents = [];
-        $.each(events, function(date, events) {
-            $.each(events, function(index, event) {
-                formattedEvents.push({
-                    title: event.document_name,
-                    start: event.date_time_reminder,
-                    backgroundColor: '<?= $colors[array_rand($colors)] ?>'
+                    // Initialize FullCalendar
+                    calendar.fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay'
+                        },
+                        defaultDate: new Date(),
+                        navLinks: true,
+                        editable: true,
+                        eventLimit: true,
+                        events: formattedEvents
+                    });
                 });
-            });
-        });
-
-        // Initialize FullCalendar
-        calendar.fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-            },
-            defaultDate: new Date(),
-            navLinks: true,
-            editable: true,
-            eventLimit: true,
-            events: formattedEvents
-        });
-    });
-</script>
+            </script>
+        </div>
+    </div>
 </body>
 </html>

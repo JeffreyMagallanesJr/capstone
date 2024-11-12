@@ -55,10 +55,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $files[] = $row;
     }
     mysqli_free_result($files_result);
-}
+
+        $query = "SELECT d.document_id, d.document_name, c.category_name, s.sub_category_name, 
+                         d.date_received, d.is_archived, cal.date_time_reminder
+                  FROM documents d
+                  JOIN category c ON d.category_id = c.category_id
+                  JOIN sub_category s ON d.sub_category_id = s.sub_category_id
+                  LEFT JOIN calendar cal ON d.document_id = cal.document_id
+                  WHERE d.is_archived = 1";
+                  
+      
+    $archive_result = mysqli_query($connection, $query);
+    $archive = array();
+    while ($row = mysqli_fetch_assoc($archive_result)) {
+        $archive[] = $row;
+    }
+    }
+
 
 $total_activities = count($activities);
 $total_files = count($files);
+$total_archive = count($archive);
 $total_documents = $total_activities + $total_files;
 ?>
 
@@ -163,6 +180,15 @@ $total_documents = $total_activities + $total_files;
 
             <h3>Activities</h3>
             <p>Total Activities</p>
+        </div>
+    </div>
+    <div class="col-sm-3 col-xs-6">
+        <div class="tile-stats tile-pink">
+            <div class="icon"><i class="entypo-calendar"></i></div>
+            <div class="num" data-start="0" data-end="<?php echo $total_archive; ?>" data-postfix="" data-duration="1500" data-delay="1200">0</div>
+
+            <h3>Archive</h3>
+            <p>Total Archive</p>
         </div>
     </div>
 </div>

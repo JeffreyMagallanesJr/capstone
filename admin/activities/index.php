@@ -2,7 +2,7 @@
 include("../../connection.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $query = "SELECT d.document_id, d.document_name, c.category_name, s.sub_category_name, cal.date_time_reminder
+    $query = "SELECT d.document_id, d.document_name, c.category_name, s.sub_category_name, d.date_received, cal.date_time_reminder
         FROM documents d
         JOIN category c ON d.category_id = c.category_id
         JOIN sub_category s ON d.sub_category_id = s.sub_category_id
@@ -137,6 +137,7 @@ if (!$result) {
                                 <th>Activity Name</th>
                                 <th>Category</th>
                                 <th>Sub-category</th>
+                                <th>Date Received</th>
                                 <th>Date Time Reminder</th>
                                 <th>Action</th>
                             </tr>
@@ -151,7 +152,7 @@ if (!$result) {
                                     echo "<td>" . $row['document_name'] . "</td>";
                                     echo "<td>" . $row['category_name'] . "</td>";
                                     echo "<td>" . $row['sub_category_name'] . "</td>";
-                                    // If date_received is a date type column, you can format it as per your requirement
+                                    echo "<td>" . $row['date_received'] . "</td>";
                                     echo "<td>" . $row['date_time_reminder'] . "</td>";
                                     // Add your action buttons or any other data as needed
                                     echo "<td>";
@@ -169,6 +170,7 @@ if (!$result) {
                                 <th>Activity Name</th>
                                 <th>Category</th>
                                 <th>Sub-category</th>
+                                <th>Date Received</th>
                                 <th>Date Time Reminder</th>
                                 <th>Action</th>
                             </tr>
