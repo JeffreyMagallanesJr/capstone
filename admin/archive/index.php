@@ -67,12 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
             <ol class="breadcrumb bc-3">
                 <li>
-                    <a href="#">Documents</a>
+                    <a href="#">Archive</a>
                 </li>
-                <li class="active">
-
-                    <strong>Activities</strong>
-                </li>
+            
             </ol>
             <div class="row">
 </div>

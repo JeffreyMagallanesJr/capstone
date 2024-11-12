@@ -1,4 +1,29 @@
 <?php
+function timeAgo($datetime, $full = false) {
+    $now = new DateTime();
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $string = [
+        'year' => $diff->y,
+        'month' => $diff->m,
+        'day' => $diff->d,
+        'hour' => $diff->h,
+        'minute' => $diff->i,
+        'second' => $diff->s,
+    ];
+    foreach ($string as $key => &$value) {
+        if ($value) {
+            $value = $value . ' ' . $key . ($value > 1 ? 's' : '');
+        } else {
+            unset($string[$key]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . ' ago' : 'just now';
+}
+
 function renderNavbar($connection) {
     // Current date and time
     $currentDateTime = date("Y-m-d H:i:s");
@@ -83,7 +108,7 @@ function renderNavbar($connection) {
         <ul class="user-info pull-right pull-right-xs pull-none-xsm">
             <!-- Notifications dropdown -->
             <li class="notifications dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" title="Notifications">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                     <i class="entypo-attention"></i>
                     <span class="badge badge-info"><?php echo mysqli_num_rows($activities_result); ?></span>
                 </a>
@@ -91,10 +116,11 @@ function renderNavbar($connection) {
                     <?php 
                     if (mysqli_num_rows($activities_result) > 0) {
                         while ($row = mysqli_fetch_assoc($activities_result)) {
+                            $timeAgo = timeAgo($row['date_time_reminder']);
                             echo "<li>";
                             echo "<a href='#' title='{$row['document_name']}'>";
-                            echo "<i class='entypo-doc-text'></i> ";
-                            echo "Reminder for {$row['document_name']} (Due: {$row['date_time_reminder']})";
+                            echo "<i class='entypo-doc-text'></i> Reminder for {$row['document_name']} (Due: {$row['date_time_reminder']})";
+                            echo "<br><span class='line small'>$timeAgo</span>";
                             echo "</a>";
                             echo "</li>";
                         }
@@ -115,10 +141,11 @@ function renderNavbar($connection) {
                     <?php 
                     if (mysqli_num_rows($reminders_result) > 0) {
                         while ($row = mysqli_fetch_assoc($reminders_result)) {
+                            $timeAgo = timeAgo($row['date_time_reminder']);
                             echo "<li>";
                             echo "<a href='#' title='{$row['document_name']}'>";
-                            echo "<i class='entypo-bell'></i> ";
-                            echo "Upcoming reminder for {$row['document_name']} (Due: {$row['date_time_reminder']})";
+                            echo "<i class='entypo-bell'></i> Upcoming reminder for {$row['document_name']} (Due: {$row['date_time_reminder']})";
+                            echo "<br><span class='line small'>$timeAgo</span>";
                             echo "</a>";
                             echo "</li>";
                         }
@@ -139,10 +166,11 @@ function renderNavbar($connection) {
                     <?php 
                     if (mysqli_num_rows($history_result) > 0) {
                         while ($row = mysqli_fetch_assoc($history_result)) {
+                            $timeAgo = timeAgo($row['date_time_reminder']);
                             echo "<li>";
                             echo "<a href='#' title='{$row['document_name']}'>";
-                            echo "<i class='entypo-doc-text'></i> ";
-                            echo "You added {$row['document_name']} with a reminder on {$row['date_time_reminder']}";
+                            echo "<i class='entypo-doc-text'></i> You added {$row['document_name']} with a reminder on {$row['date_time_reminder']}";
+                            echo "<br><span class='line small'>$timeAgo</span>";
                             echo "</a>";
                             echo "</li>";
                         }
