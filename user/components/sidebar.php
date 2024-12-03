@@ -5,7 +5,7 @@
         <header class="logo-env">
             <!-- logo -->
             <div class="logo">
-                <a href="/capstone/admin/dashboard.php">
+                <a href="/capstone/user/dashboard.php">
                     <img src="/capstone/template/assets/logo/mandalagan-logo.png" width="120" alt="" />
                 </a>
                 <h3 class="" style="color: #fff !important; margin-bottom: 0px !important; font-size: 18px;">Document</h3>
@@ -29,19 +29,12 @@
         </header>
 
         <ul id="main-menu" class="main-menu" style="font-size: 20px;">
-            <li>
-                <a href="/capstone/admin/dashboard.php">
+            <li class="active">
+                <a href="/capstone/user/dashboard.php">
                     <i class="entypo-gauge" style="font-size: 20px;"></i>
                     <span class="title">Dashboard</span>
                 </a>
             </li>
-            <li>
-                <a href="/capstone/admin/user">
-                    <i class="entypo-user" style="font-size: 20px;"></i>
-                    <span class="title">Users</span>
-                </a>
-            </li>
-            
             <li class="has-sub">
                 <a href="#">
                     <i class="entypo-doc-text" style="font-size: 20px;"></i>
@@ -49,25 +42,25 @@
                 </a>
                 <ul style="font-size: 20px;">
                     <li>
-                        <a href="/capstone/admin/files">
+                        <a href="/capstone/user/files">
                             <span class="title">Files</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/capstone/admin/activities">
+                        <a href="/capstone/user/activities">
                             <span class="title">Activities</span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="/capstone/admin/calendar">
+                <a href="/capstone/user/calendar">
                     <i class="entypo-calendar" style="font-size: 20px;"></i>
                     <span class="title">Calendar</span>
                 </a>
             </li>
             <li>
-                <a href="/capstone/admin/archive">
+                <a href="/capstone/user/archive">
                     <i class="entypo-bag" style="font-size: 20px;"></i>
                     <span class="title">Archive</span>
                 </a>

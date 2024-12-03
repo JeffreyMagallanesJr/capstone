@@ -25,6 +25,22 @@ function timeAgo($datetime, $full = false) {
 }
 
 function renderNavbar($connection) {
+    // Fetch profile picture and name for the current user based on user_id
+    $userQuery = "
+        SELECT 
+            profile_name 
+        FROM 
+            user 
+        WHERE 
+            account_type = 1
+        
+    ";
+    $userResult = mysqli_query($connection, $userQuery);
+    $user = mysqli_fetch_assoc($userResult);
+
+    // Default values if profile picture or name are not found
+    $profileName = !empty($user['profile_name']) ? $user['profile_name'] : 'Unknown';
+
     // Current date and time
     $currentDateTime = date("Y-m-d H:i:s");
 
@@ -88,13 +104,14 @@ function renderNavbar($connection) {
         <ul class="user-info pull-left pull-none-xsm">
             <li class="profile-info dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Profile">
+                    <!-- Display profile picture and name -->
                     <img src="/capstone/profile/admin.jpg" alt="" class="img-circle" width="44" />
-                   <strong> Admin </strong>
+                    <strong><?php echo $profileName; ?></strong>
                 </a>
                 <ul class="dropdown-menu">
                     <li class="caret"></li>
-                    <li><a href="/capstone/Profile/index.ph" title="Edit Profile"><i class="entypo-user"></i> Edit Profile</a></li>
-                    <li><a href="/capstone/admin/calendar/index.php" title="Calendar"><i class="entypo-calendar"></i> Calendar</a></li>
+                    <li><a href="/capstone/Profile/index.php" title="Edit Profile"><i class="entypo-user"></i> Edit Profile</a></li>
+                    <li><a href="/capstone/user/calendar/index.php" title="Calendar"><i class="entypo-calendar"></i> Calendar</a></li>
                     <div class="col-md-6 col-sm-4 clearfix hidden-xs">
                         <ul class="list-inline links-list pull-right">
                             <li><a href="/capstone/index.php" title="Log Out"><i class="entypo-logout right"></i> Log Out</a></li>
