@@ -88,12 +88,11 @@ function renderNavbar($connection) {
         <ul class="user-info pull-left pull-none-xsm">
             <li class="profile-info dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Profile">
-                    <img src="/capstone/profile/admin.jpg" alt="" class="img-circle" width="44" />
+                    <img src="/capstone/Profile/admin.jpg" alt="" class="img-circle" width="44" />
                    <strong> Admin </strong>
                 </a>
                 <ul class="dropdown-menu">
                     <li class="caret"></li>
-                    <li><a href="/capstone/Profile/index.ph" title="Edit Profile"><i class="entypo-user"></i> Edit Profile</a></li>
                     <li><a href="/capstone/admin/calendar/index.php" title="Calendar"><i class="entypo-calendar"></i> Calendar</a></li>
                     <div class="col-md-6 col-sm-4 clearfix hidden-xs">
                         <ul class="list-inline links-list pull-right">

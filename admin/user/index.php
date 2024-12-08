@@ -123,7 +123,7 @@ if (!$result) {
                                 echo "<td>" . $row['password'] . "</td>";
                                 echo "<td>" . $row['profile_name'] . "</td>";
                                 echo "<td>";
-                                echo "<a href='./source/Edit_file.php?user_id=" . $row['user_id'] . "' class='btn btn-sm btn-info text-uppercase'>Edit</a>";
+                                echo "<a href='./source/edit.php?user_id=" . $row['user_id'] . "' class='btn btn-sm btn-info text-uppercase'>Edit</a>";
                                 
                                 echo "</tr>";
                             }
